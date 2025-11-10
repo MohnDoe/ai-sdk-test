@@ -18,6 +18,7 @@ export async function getWeather({ city, unit }: { city: string, unit: "fahrenhe
         longitude: lon,
 
         daily: ["temperature_2m_max", "temperature_2m_min", "weather_code"],
+        hourly: ["temperature_2m", "weather_code"],
         current: "temperature_2m",
         timezone: "auto",
         forecast_days: 7,
@@ -33,6 +34,8 @@ export async function getWeather({ city, unit }: { city: string, unit: "fahrenhe
 
     const current = response.current()!;
     const daily = response.daily()!;
+    const hourly = response.hourly()!;
+
 
     // weird API, their doc requires this kind of manipulation. I'll stick with it for now.
     // TODO: change API maybe
@@ -50,13 +53,21 @@ export async function getWeather({ city, unit }: { city: string, unit: "fahrenhe
             temperature_2m_min: daily.variables(1)!.valuesArray(),
             weather_code: daily.variables(2)!.valuesArray(),
         },
+        hourly: {
+            time: Array.from(
+                { length: (Number(hourly.timeEnd()) - Number(hourly.time())) / hourly.interval() },
+                (_, i) => new Date((Number(hourly.time()) + i * hourly.interval() + utcOffsetSeconds) * 1000)
+            ),
+            temperature_2m: hourly.variables(0)!.valuesArray(),
+            weather_code: hourly.variables(1)!.valuesArray(),
+        },
     };
 
     return weatherData;
 }
 
 export async function getCityCoords(city: string) {
-    const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${OWM_API_KEY}`);
+    const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${OWM_API_KEY}`);
     const data = await response.json();
 
     if (!data.length) return null;

@@ -4,22 +4,26 @@ import {
   InferUITools,
   stepCountIs,
   ToolLoopAgent,
-  ToolSet,
   UIDataTypes,
   UIMessage,
 } from "ai";
 
-const tools: ToolSet = {
+const tools = {
   getWeatherForCity
 };
 
 const agent = new ToolLoopAgent({
   model: mistral("mistral-large-latest"),
   instructions: `
-  You are a friendly weather assistant.
-  You speak the language of the user and try your best to anwser their questions.
-
-  When asked about the weather or meteo conditions use "getWeatherForCity" tool. Use Celcius by default.
+        - you help get weather information
+        - keep your responses limited to a sentence.
+        - DO NOT output lists.
+        - after every tool call, pretend you're showing the result to the user and keep your response limited to a phrase.
+        - today's date is ${new Date().toLocaleDateString()}.
+        - ask follow up questions to nudge user into the optimal flow based on the tools you can use
+        - don't invent features or nudge the user into information you can't get
+        - ask for any details you don't know, like date or location
+        - assume the use uses Celcius unless stated otherwise
   `,
   tools,
   stopWhen: stepCountIs(5),
