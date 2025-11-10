@@ -67,8 +67,7 @@ export const useConversationStore = create<ConversationStore>()(
         const { conversations, activeConversationId } = get();
 
         set({
-          activeConversationId:
-            activeConversationId === id ? null : activeConversationId,
+          activeConversationId: activeConversationId === id ? null : activeConversationId,
           conversations: conversations.filter(
             (conversation) => conversation.id !== id,
           ),

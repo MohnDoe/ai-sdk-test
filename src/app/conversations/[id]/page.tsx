@@ -21,10 +21,10 @@ export default function ConversationPage(props: PageProps<`/conversations/[id]`>
         setIsLoading(false);
       }
       else {
-        router.push("/conversations/new")
+        router.push("/")
       }
     }
-  }, [activeConversation, router, setActiveConversationId, isReady])
+  }, [activeConversation, setActiveConversationId, isReady])
 
-  return isLoading ? <>Chargement</> : <Chat conversation={activeConversation!} />;
+  return isLoading || !activeConversation ? <>Chargement</> : <Chat conversation={activeConversation!} />;
 }

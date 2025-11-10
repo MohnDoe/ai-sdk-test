@@ -37,7 +37,7 @@ export function Chat({ conversation }: { conversation: ConversationType }) {
     onFinish: ({ message }) => {
       addMessageToConversation(conversation.id, message);
     },
-    messages: conversation.messages,
+    messages: conversation.messages ?? [],
   });
 
   const handleSubmit = (message: PromptInputMessage) => {

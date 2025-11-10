@@ -1,9 +1,16 @@
+import { useConversationStore } from "@/app/lib/ai/conversation/store";
+import { Button } from "@/components/ui/button";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@radix-ui/react-separator";
 import { Trash } from "lucide-react";
-import { Button } from "../ui/button";
-import { SidebarTrigger } from "../ui/sidebar";
 
 export function ChatHeader({ title }: { title?: string }) {
+  const { deleteConversation, activeConversationId } = useConversationStore();
+
+  const handleDeleteActiveConversation = () => {
+    deleteConversation(activeConversationId!);
+  }
+
   return (
     <header className="flex shrink-0 items-center gap-4 p-2 border-b">
       <SidebarTrigger />
@@ -11,7 +18,7 @@ export function ChatHeader({ title }: { title?: string }) {
       <h1 className="text-base font-medium">
         {title ?? "Nouvelle conversation"}
       </h1>
-      <Button variant="ghost" size="icon" className="ml-auto">
+      <Button variant="ghost" size="icon" className="ml-auto" onClick={handleDeleteActiveConversation}>
         <Trash />
       </Button>
     </header>
