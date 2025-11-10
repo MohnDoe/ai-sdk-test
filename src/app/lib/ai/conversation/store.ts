@@ -13,6 +13,7 @@ export interface Conversation {
 }
 
 interface ConversationStore {
+  isReady: boolean;
   conversations: Conversation[];
   activeConversationId: string | null;
 
@@ -25,6 +26,7 @@ interface ConversationStore {
 export const useConversationStore = create<ConversationStore>()(
   persist(
     (set, get) => ({
+      isReady: false,
       conversations: [],
       activeConversationId: null,
       createConversation: (title?: string) => {
@@ -76,6 +78,11 @@ export const useConversationStore = create<ConversationStore>()(
     {
       name: "aieConversationStore",
       storage: createJSONStorage(() => localStorage),
+      onRehydrateStorage: () => (state, error) => {
+        if (state) {
+          state.isReady = true;
+        }
+      }
     },
   ),
 );
