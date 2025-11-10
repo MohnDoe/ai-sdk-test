@@ -1,5 +1,21 @@
-import { Chat } from "@/components/chat/chat";
+"use client";
+
+import { useConversationStore } from "@/app/lib/ai/conversation/store";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
-  return <Chat />;
+    const router = useRouter();
+    const { conversations } = useConversationStore();
+
+    useEffect(() => {
+        if (conversations.length > 0) {
+            const mostRecentConversation = conversations.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())[0];
+            router.push(`/conversations/${mostRecentConversation.id}`);
+        } else {
+            router.push(`/conversations/new`);
+        }
+    }, [conversations, router]);
+
+    return null;
 }

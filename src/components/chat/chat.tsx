@@ -1,17 +1,17 @@
 "use client";
-import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport, InferAgentUIMessage } from "ai";
-import { Fragment, useState } from "react";
+
+import { ChatMessage } from "@/app/lib/ai/agent";
+import { Conversation as ConversationType, useConversationStore } from "@/app/lib/ai/conversation/store";
 import {
   Conversation,
   ConversationContent,
   ConversationEmptyState,
-} from "../ai-elements/conversation";
+} from "@/components/ai-elements/conversation";
 import {
   Message,
   MessageContent,
   MessageResponse,
-} from "../ai-elements/message";
+} from "@/components/ai-elements/message";
 import {
   PromptInput,
   PromptInputBody,
@@ -20,18 +20,24 @@ import {
   PromptInputSubmit,
   PromptInputTextarea,
   PromptInputTools,
-} from "../ai-elements/prompt-input";
-import { ChatHeader } from "./header";
-import agent from "@/app/lib/ai/agent";
+} from "@/components/ai-elements/prompt-input";
+import { ChatHeader } from "@/components/chat/header";
+import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport } from "ai";
+import { Fragment, useState } from "react";
 
-type MyAgentUIMessage = InferAgentUIMessage<typeof agent>;
-
-export function Chat() {
+export function Chat({ conversation }: { conversation: ConversationType }) {
+  const { addMessageToConversation } = useConversationStore();
   const [input, setInput] = useState("");
-  const { messages, sendMessage, status } = useChat<MyAgentUIMessage>({
+
+  const { messages, sendMessage, status } = useChat<ChatMessage>({
     transport: new DefaultChatTransport({
       api: "/api/chat",
     }),
+    onFinish: ({ message }) => {
+      addMessageToConversation(conversation.id, message);
+    },
+    messages: conversation.messages,
   });
 
   const handleSubmit = (message: PromptInputMessage) => {
@@ -41,13 +47,19 @@ export function Chat() {
       return;
     }
 
+    addMessageToConversation(conversation.id, {
+      id: crypto.randomUUID(),
+      role: "user",
+      parts: [{ type: "text", text: message.text! }],
+    });
+
     sendMessage({ text: message.text! });
     setInput("");
   };
 
   return (
     <div className="relative flex size-full flex-col divide-y overflow-hidden grow shrink max-h-full">
-      <ChatHeader title="Quel est le sens de la vie ?" />
+      <ChatHeader title={conversation.title ?? "Nouvelle conversation"} />
       <div className="flex flex-col h-full">
         <Conversation>
           <ConversationContent>
