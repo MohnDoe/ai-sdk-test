@@ -17,11 +17,11 @@ export async function getWeather({ city, unit }: { city: string, unit: "fahrenhe
         latitude: lat,
         longitude: lon,
 
-        daily: ["temperature_2m_max", "temperature_2m_min", "weather_code"],
+        daily: ["weather_code", "temperature_2m_max", "temperature_2m_min"],
         hourly: ["temperature_2m", "weather_code"],
-        current: "temperature_2m",
+        current: ["temperature_2m", "weather_code"],
         timezone: "auto",
-        forecast_days: 7,
+        forecast_days: 14,
         temperature_unit: unit
     }
 
@@ -43,15 +43,7 @@ export async function getWeather({ city, unit }: { city: string, unit: "fahrenhe
         current: {
             time: new Date((Number(current.time()) + utcOffsetSeconds) * 1000),
             temperature_2m: current.variables(0)!.value(),
-        },
-        daily: {
-            time: Array.from(
-                { length: (Number(daily.timeEnd()) - Number(daily.time())) / daily.interval() },
-                (_, i) => new Date((Number(daily.time()) + i * daily.interval() + utcOffsetSeconds) * 1000)
-            ),
-            temperature_2m_max: daily.variables(0)!.valuesArray(),
-            temperature_2m_min: daily.variables(1)!.valuesArray(),
-            weather_code: daily.variables(2)!.valuesArray(),
+            weather_code: current.variables(1)!.value(),
         },
         hourly: {
             time: Array.from(
@@ -61,8 +53,16 @@ export async function getWeather({ city, unit }: { city: string, unit: "fahrenhe
             temperature_2m: hourly.variables(0)!.valuesArray(),
             weather_code: hourly.variables(1)!.valuesArray(),
         },
+        daily: {
+            time: Array.from(
+                { length: (Number(daily.timeEnd()) - Number(daily.time())) / daily.interval() },
+                (_, i) => new Date((Number(daily.time()) + i * daily.interval() + utcOffsetSeconds) * 1000)
+            ),
+            weather_code: daily.variables(0)!.valuesArray(),
+            temperature_2m_max: daily.variables(1)!.valuesArray(),
+            temperature_2m_min: daily.variables(2)!.valuesArray(),
+        },
     };
-
     return weatherData;
 }
 
