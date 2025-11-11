@@ -24,7 +24,8 @@ import {
 import { ChatHeader } from "@/components/chat/header";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
-import { Fragment, useState } from "react";
+import { useState } from "react";
+import { WeatherToolComponent } from "./tools/weather";
 
 export function Chat({ conversation }: { conversation: ConversationType }) {
   const { addMessageToConversation } = useConversationStore();
@@ -58,7 +59,7 @@ export function Chat({ conversation }: { conversation: ConversationType }) {
   };
 
   return (
-    <div className="relative flex size-full flex-col divide-y overflow-hidden grow shrink max-h-full">
+    <div className="relative flex flex-col divide-y overflow-hidden grow shrink max-h-full">
       <ChatHeader title={conversation.title ?? "Nouvelle conversation"} />
       <div className="flex flex-col h-full">
         <Conversation>
@@ -67,8 +68,8 @@ export function Chat({ conversation }: { conversation: ConversationType }) {
               <ConversationEmptyState />
             ) : (
               messages.map((message) => (
-                <Fragment key={message.id}>
-                  {message.parts.map((part) => {
+                <div key={message.id} className="flex flex-col gap-4">
+                  {message.parts.map((part, i) => {
                     switch (part.type) {
                       case "text":
                         return (
@@ -78,9 +79,14 @@ export function Chat({ conversation }: { conversation: ConversationType }) {
                             </MessageContent>
                           </Message>
                         );
+                      case "tool-getWeatherForCity":
+                        return <WeatherToolComponent key={`${i}-${message.id}-${part.type}`} part={part} />;
+                      default:
+                        console.log(part);
+                        return null;
                     }
                   })}
-                </Fragment>
+                </div>
               ))
             )}
           </ConversationContent>

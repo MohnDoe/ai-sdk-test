@@ -12,7 +12,7 @@ export function ChatHeader({ title }: { title?: string }) {
   }
 
   return (
-    <header className="flex shrink-0 items-center gap-4 p-2 border-b">
+    <header className="flex shrink items-center gap-4 p-2 border-b">
       <SidebarTrigger />
       <Separator orientation="vertical" />
       <h1 className="text-base font-medium">

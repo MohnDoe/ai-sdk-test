@@ -1,6 +1,6 @@
 import { getWeather } from "@/app/lib/weather/weather";
-import { tool } from "ai";
-import { date, z } from "zod";
+import { InferUITool, tool } from "ai";
+import { z } from "zod";
 
 export const getWeatherForCity = tool({
     description: "Get the weather in a given city in a given unit and date",
@@ -92,3 +92,5 @@ export const getWeatherForCity = tool({
 
     }
 })
+
+export type WeatherTool = InferUITool<typeof getWeatherForCity>;
