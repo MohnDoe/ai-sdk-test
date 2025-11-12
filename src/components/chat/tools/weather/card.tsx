@@ -17,12 +17,14 @@ const WeatherCardHeader = (
     {
         date,
         temperatureUnit,
-        weather
+        weather,
+        isDay
     }:
         {
             date: Date,
             temperatureUnit: string,
-            weather: CurrentWeather | DailyWeather | HourlyWeather
+            weather: CurrentWeather | DailyWeather | HourlyWeather,
+            isDay?: boolean
         }
 ) => {
     const isDaily = 'temperatureMax' in weather && 'temperatureMin' in weather;
@@ -30,18 +32,15 @@ const WeatherCardHeader = (
 
     return (
         <CardHeader className="flex flex-row gap-8 items-center justify-between py-0 px-4">
-            <div className="flex flex-col">
-                <span className="text-sm">{dateObject.format("dddd, MMMM D")}</span>
-                {!isDaily && (
-                    <span className="text-sm">{dateObject.format("HH:mm")}</span>
-                )}
+            <div className="flex flex-col grow">
+                <span className="text-sm">{dateObject.format(isDaily ? "dddd, MMMM D" : "dddd, MMMM D @ HH:mm")}</span>
                 {isDaily ? (
                     <span className="text-5xl font-black">{Math.round(weather.temperatureMax)}/{Math.round(weather.temperatureMin)}{temperatureUnit}</span>
                 ) : (
                     <span className="text-5xl font-black">{(weather as CurrentWeather | HourlyWeather).temperature.toFixed(1)}{temperatureUnit}</span>
                 )}
             </div>
-            <Image src={getWeatherIcon(weather.weatherCode, 4)} alt="Weather icon" width={200} height={200} className="-my-10" />
+            <Image src={getWeatherIcon(weather.weatherCode, 4, isDay)} alt="Weather icon" width={200} height={200} className="-my-10" />
         </CardHeader>
     )
 }
@@ -89,6 +88,7 @@ export function WeatherCard({
                     date={new Date(displayedWeather.time)}
                     temperatureUnit={tempUnit}
                     weather={displayedWeather}
+                    isDay={(displayedWeather as HourlyWeather).isDay ?? true}
                 />
                 <CardContent className="px-4 overflow-hidden">
                     <div className="flex flex-row gap-2 overflow-x-scroll">
