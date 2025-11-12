@@ -1,7 +1,7 @@
 "use client";
 
-import { ChatMessage } from "@/app/lib/ai/agent";
-import { Conversation as ConversationType, useConversationStore } from "@/app/lib/ai/conversation/store";
+import { ChatMessage } from "@/lib/ai/agent"
+import { Conversation as ConversationType, useConversationStore } from "@/lib/ai/conversation/store"
 import {
   Conversation,
   ConversationContent,

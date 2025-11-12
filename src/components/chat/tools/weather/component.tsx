@@ -1,4 +1,4 @@
-import { type WeatherTool } from "@/app/lib/ai/tools/weather";
+import { type WeatherTool } from "@/lib/ai/tools/weather"
 import { UIToolInvocation } from "ai";
 import { WeatherCard } from "./card";
 import { memo } from "react";

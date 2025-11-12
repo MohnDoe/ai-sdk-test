@@ -1,4 +1,4 @@
-import { getWeatherForCity } from "@/app/lib/ai/tools/weather";
+import { getWeatherForCity } from "@/lib/ai/tools/weather"
 import { mistral } from "@ai-sdk/mistral";
 import {
   InferUITools,

@@ -1,4 +1,4 @@
-import { useConversationStore } from "@/app/lib/ai/conversation/store";
+import { useConversationStore } from "@/lib/ai/conversation/store";
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@radix-ui/react-separator";

@@ -1,4 +1,4 @@
-import { getWeather } from "@/app/lib/weather/weather";
+import { getWeather } from "@/lib/weather/weather"
 import { InferUITool, tool } from "ai";
 import { z } from "zod";
 

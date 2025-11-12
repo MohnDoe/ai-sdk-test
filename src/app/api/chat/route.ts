@@ -1,4 +1,4 @@
-import agent, { ChatMessage } from "@/app/lib/ai/agent";
+import agent, { ChatMessage } from "@/lib/ai/agent";
 import { createAgentUIStreamResponse } from "ai";
 
 export const maxDuration = 30;

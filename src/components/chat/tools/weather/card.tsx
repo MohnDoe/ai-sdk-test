@@ -1,4 +1,4 @@
-import { currentWeatherSchema, dailyWeatherSchema, hourlyWeatherSchema } from "@/app/lib/ai/tools/weather";
+import { currentWeatherSchema, dailyWeatherSchema, hourlyWeatherSchema } from "@/lib/ai/tools/weather"
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import dayjs from "dayjs";

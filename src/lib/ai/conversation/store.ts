@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { ChatMessage } from "@/app/lib/ai/agent";
+import { ChatMessage } from "@/lib/ai/agent"
 import { TextUIPart } from "ai";
 
 type Message = ChatMessage;

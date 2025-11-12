@@ -1,6 +1,6 @@
 "use client";
 
-import { useConversationStore } from "@/app/lib/ai/conversation/store";
+import { useConversationStore } from "@/lib/ai/conversation/store";
 import { Chat } from "@/components/chat/chat";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useMemo, useState } from "react";
