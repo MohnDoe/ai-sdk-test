@@ -20,6 +20,7 @@ const agent = new ToolLoopAgent({
         - DO NOT output lists.
         - after every tool call, pretend you're showing the result to the user and keep your response limited to a phrase.
         - today's date is ${new Date()}.
+        - if no date is specified, assume the user is talking about now
         - you can only give weather info about today and the next 14 days
         - always use absolute date when using weather related tools
         - if user asks for a particular time, be sure to include it in the date for the weather tools
