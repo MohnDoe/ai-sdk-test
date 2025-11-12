@@ -15,9 +15,29 @@ The application provides a chat interface where users can ask for weather inform
 *   **Streaming Responses**: The chat interface streams responses from the AI agent for a real-time feel.
 *   **Lazy loading tools**: Skeleton card will be placed while the AI agent fetch data
 
+## Tools
+
+### How `getWeatherForCity` works
+
+The model first map out the input for the tool depending on what the user is asking (ie: `city`, `date`, `unit`). And proceed as follows : 
+
+1. Fetch the longitude and lattitude of the city using OpenWeatherMap
+2. Fetch weather data from Open-Meteo using the acquired longitude and lattitude, as well as the unit
+3. Parse the data
+4. Send it
+
+#### On the tool UI
+
+The UI is able to display different state of the tool, this is useful if the tool takes time to load.
+Depending on the tool `output` the tool will display either a list of dates with weather data or a list of hours.
+If the agent understood correctly the `data` of the query, the tool will display this information first. But the user is free to click on any other data listed to display it as well.
+The component also uses the tool `input` to display the correct city name and the correct temperature unit.
+
 ## Conversational abilities
 
 Since the `getWeatherForCity` tool fetch the current weather, the daily and hourly forecast, the agant is capable to map out what a week will look like, or tell you what the weather will be in 4 hours. The agent also has the ability to pull data for multiple cities, making it able to compare cities' weather.
+
+Mistral AI being smart, it can also infer informations such as : what you should wear for a type of activity outside. What the `WMO weather codes` means ("sunny", "cloudy").
 
 
 ## Getting Started
