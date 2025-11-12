@@ -35,7 +35,7 @@ const WeatherCardHeader = (
             <div className="flex flex-col grow">
                 <span className="text-sm">{dateObject.format(isDaily ? "dddd, MMMM D" : "dddd, MMMM D @ HH:mm")}</span>
                 {isDaily ? (
-                    <span className="text-5xl font-black">{Math.round(weather.temperatureMax)}/{Math.round(weather.temperatureMin)}{temperatureUnit}</span>
+                    <span className="text-5xl font-black">{Math.round(weather.temperatureMin)}/{Math.round(weather.temperatureMax)}{temperatureUnit}</span>
                 ) : (
                     <span className="text-5xl font-black">{(weather as CurrentWeather | HourlyWeather).temperature.toFixed(1)}{temperatureUnit}</span>
                 )}
