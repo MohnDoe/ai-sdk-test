@@ -47,7 +47,7 @@ export function Chat({ conversation }: { conversation: ConversationType }) {
   return (
     <div className="relative flex flex-col divide-y overflow-hidden grow shrink max-h-full">
       <ChatHeader title={conversation.title ?? "Nouvelle conversation"} />
-      <div className="flex flex-col h-full">
+      <div className="flex flex-col grow shrink overflow-y-auto">
         <Conversation>
           <ConversationContent>
             {messages.length == 0 ? (
@@ -76,7 +76,7 @@ export function Chat({ conversation }: { conversation: ConversationType }) {
             )}
           </ConversationContent>
         </Conversation>
-        <div className="w-full px-4 pb-4">
+        <div className="w-full px-4 pb-4 mt-2">
           <ChatInput onSubmit={handleSendMessage} status={status} />
         </div>
       </div>

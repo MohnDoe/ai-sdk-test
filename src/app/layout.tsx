@@ -28,13 +28,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen`}
       >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
-          <SidebarProvider>
+          <SidebarProvider className="h-full">
             <ChatSidebar />
             <SidebarInset>
-              <main className="flex min-h-screen grow shrink flex-col max-w-full">{children}</main>
+              <div className="flex grow shrink flex-col max-w-full h-full">{children}</div>
             </SidebarInset>
           </SidebarProvider>
         </ThemeProvider>
