@@ -19,7 +19,7 @@ export async function getWeather({ city, unit, timezone = "auto" }: { city: stri
 
         daily: ["weather_code", "temperature_2m_max", "temperature_2m_min"],
         hourly: ["temperature_2m", "weather_code", "is_day"],
-        current: ["temperature_2m", "weather_code"],
+        current: ["temperature_2m", "weather_code", "is_day"],
         timezone,
         forecast_days: 14,
         temperature_unit: unit
@@ -44,6 +44,7 @@ export async function getWeather({ city, unit, timezone = "auto" }: { city: stri
             time: new Date((Number(current.time()) + utcOffsetSeconds) * 1000),
             temperature_2m: current.variables(0)!.value(),
             weather_code: current.variables(1)!.value(),
+            is_day: current.variables(2)!.value(),
         },
         hourly: {
             time: Array.from(

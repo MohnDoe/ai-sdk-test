@@ -14,6 +14,7 @@ export const currentWeatherSchema = z.object({
     time: z.number().describe("The date of the forecast in number of milliseconds since the epoch"),
     temperature: z.number().describe("The temperature for the date in the given unit"),
     weatherCode: z.number().describe("The weather code of the forecast"),
+    isDay: z.boolean().describe("Whether the forecast is for the day or night")
 }).describe("The current weather");
 
 export const hourlyWeatherSchema = z.object({
@@ -49,6 +50,7 @@ export const getWeatherForCity = tool({
                 time: weatherResponse.current.time.getTime(),
                 temperature: weatherResponse.current.temperature_2m,
                 weatherCode: weatherResponse.current.weather_code,
+                isDay: weatherResponse.current.is_day === 1,
             },
             daily: granularity === "daily" ? weatherResponse.daily.time.map((time, i) => ({
                 time: time.toString(),
