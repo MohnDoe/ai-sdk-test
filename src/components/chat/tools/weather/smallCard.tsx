@@ -12,7 +12,7 @@ export function SmallWeatherCard({
     temperatureMin,
     temperatureMax,
     isSelected,
-    onClick
+    onClick,
 }: {
     granularity: "daily" | "hourly";
     date: Date;
