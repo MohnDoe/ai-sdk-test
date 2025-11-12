@@ -8,6 +8,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import z from "zod";
 import { SmallWeatherCard } from "./smallCard";
 import { getWeatherIcon } from "./utils";
+import { Skeleton } from "@/components/ui/skeleton";
 type CurrentWeather = z.infer<typeof currentWeatherSchema>;
 type DailyWeather = z.infer<typeof dailyWeatherSchema>
 type HourlyWeather = z.infer<typeof hourlyWeatherSchema>
@@ -44,6 +45,29 @@ const WeatherCardHeader = (
         </CardHeader>
     )
 }
+
+export function LoadingWeatherCard({ city }: { city: string | null }) {
+    return (
+        <div className="shrink h-auto  gap-4 flex flex-col max-w-xl">
+            <Badge variant="secondary"><MapPin /> {city ? city : <Skeleton className="w-20 h-4" />} </Badge>
+            <Card className="py-2 gap-4">
+                <CardHeader className="flex flex-row gap-8 items-center justify-between py-0 px-4">
+                    <div className="flex flex-col grow gap-2">
+                        <Skeleton className="h-8 w-40" />
+                        <Skeleton className="h-16 w-40" />
+                    </div>
+                    <Skeleton className="w-40 h-30 rounded-full" />
+                </CardHeader>
+                <CardContent className="px-4 overflow-hidden">
+                    <div className="flex flex-row gap-2 overflow-x-hidden">
+                        {[...Array(5)].map((_, i) => <Skeleton key={`skeleton-mini-card-${i}`} className="w-40 h-30" />)}
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
+    );
+}
+
 export function WeatherCard({
     current,
     daily,
