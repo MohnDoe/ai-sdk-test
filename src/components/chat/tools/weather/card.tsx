@@ -65,7 +65,7 @@ export function WeatherCard({
 
     useLayoutEffect(() => {
         if (selectedCardRef.current) {
-            (selectedCardRef.current as HTMLDivElement).scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+            (selectedCardRef.current as HTMLDivElement).scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' });
         }
     }, [selectedDate]);
 

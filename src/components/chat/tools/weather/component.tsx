@@ -9,7 +9,6 @@ export const WeatherToolComponent = memo(function WeatherToolComponent({ part }:
         case 'input-available':
             return <div>Getting weather for </div>;
         case 'output-available':
-            { console.log(part.input.date) }
             return <WeatherCard
                 city={part.input.city}
                 current={part.output?.current!}
