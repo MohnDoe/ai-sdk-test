@@ -20,6 +20,7 @@ export const hourlyWeatherSchema = z.object({
     time: z.string().describe("The time for the hourly forecast in number of milliseconds since the epoch"),
     temperature: z.number().describe('The temperature for the hourly forecast'),
     weatherCode: z.number().describe('The weather code for the hourly forecast'),
+    isDay: z.boolean().describe("Whether the forecast is for the day or night")
 })
 
 export const dailyWeatherSchema = z.object({
@@ -59,6 +60,7 @@ export const getWeatherForCity = tool({
                 time: time.toString(),
                 temperature: weatherResponse.hourly.temperature_2m?.[i]!,
                 weatherCode: weatherResponse.hourly.weather_code?.[i]!,
+                isDay: weatherResponse.hourly.is_day?.[i]! === 1,
             })) : undefined,
         }
 

@@ -13,6 +13,7 @@ export function SmallWeatherCard({
     temperatureMax,
     isSelected,
     onClick,
+    isDay,
 }: {
     granularity: "daily" | "hourly";
     date: Date;
@@ -23,6 +24,7 @@ export function SmallWeatherCard({
     temperatureMax?: number;
     isSelected: boolean;
     onClick: () => void;
+    isDay?: boolean;
 }) {
     return (
         <div onClick={onClick} className={
@@ -41,7 +43,7 @@ export function SmallWeatherCard({
                     {dayjs(date).format('ddd')}
                 </span>
             }
-            <Image src={getWeatherIcon(weatherCode)} alt="Weather icon" width={40} height={40} className="-my-1" />
+            <Image src={getWeatherIcon(weatherCode, 2, isDay)} alt="Weather icon" width={40} height={40} className="-my-1" />
             <span className="text-sm font-bold">
                 {
                     granularity === 'hourly' ?

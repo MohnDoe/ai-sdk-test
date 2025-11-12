@@ -18,7 +18,7 @@ export async function getWeather({ city, unit, timezone = "auto" }: { city: stri
         longitude: lon,
 
         daily: ["weather_code", "temperature_2m_max", "temperature_2m_min"],
-        hourly: ["temperature_2m", "weather_code"],
+        hourly: ["temperature_2m", "weather_code", "is_day"],
         current: ["temperature_2m", "weather_code"],
         timezone,
         forecast_days: 14,
@@ -52,6 +52,7 @@ export async function getWeather({ city, unit, timezone = "auto" }: { city: stri
             ),
             temperature_2m: hourly.variables(0)!.valuesArray(),
             weather_code: hourly.variables(1)!.valuesArray(),
+            is_day: hourly.variables(2)!.valuesArray(),
         },
         daily: {
             time: Array.from(

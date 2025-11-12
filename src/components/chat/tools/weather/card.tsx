@@ -41,7 +41,7 @@ const WeatherCardHeader = (
                     <span className="text-5xl font-black">{(weather as CurrentWeather | HourlyWeather).temperature.toFixed(1)}{temperatureUnit}</span>
                 )}
             </div>
-            <Image src={getWeatherIcon(weather.weatherCode)} alt="Weather icon" width={200} height={200} className="-my-10" />
+            <Image src={getWeatherIcon(weather.weatherCode, 4)} alt="Weather icon" width={200} height={200} className="-my-10" />
         </CardHeader>
     )
 }
@@ -134,6 +134,7 @@ export function WeatherCard({
                                             setSelectedDate(new Date(hour.time));
                                             setDisplayedWeather(hour);
                                         }}
+                                        isDay={hour.isDay ?? true}
                                     />
                                 </div>
                             )
