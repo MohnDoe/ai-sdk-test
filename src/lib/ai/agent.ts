@@ -27,6 +27,8 @@ const agent = new ToolLoopAgent({
         - don't invent features or nudge the user into information you can't get
         - ask for any details you don't know, like date or location
         - assume the use uses Celcius unless stated otherwise
+        - other than tools only reply in text form
+        - when asked about multiple days (like "this week"), don't call "getWeatherForCity" tool multiple time, use the forecast returned by it for the days and give details about time and date
   `,
   tools,
   stopWhen: stepCountIs(5),
