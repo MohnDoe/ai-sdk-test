@@ -41,10 +41,15 @@ export function ChatSidebar() {
               .map((conversation) => (
                 <SidebarMenuItem key={conversation.id}>
                   <SidebarMenuButton asChild isActive={conversation.id === activeConversationId}>
-                    <Link href={`/conversations/${conversation.id}`}>{conversation.title ?? "Nouvelle conversation"}</Link>
+                    <Link
+                      href={`/conversations/${conversation.id}`}
+                      className="truncate"
+                    >
+                      {conversation.title ?? "Nouvelle conversation"}
+                    </Link>
                   </SidebarMenuButton>
                   <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
+                    <DropdownMenuTrigger asChild className="bg-accent cursor-pointer hover:bg-accent-foreground hover:text-accent">
                       <SidebarMenuAction showOnHover className="data-[state=open]:bg-accent rounded-sm">
                         <Ellipsis />
                       </SidebarMenuAction>
@@ -53,11 +58,7 @@ export function ChatSidebar() {
                       className="w-24 rounded-lg"
                       side="right" align="start"
                     >
-                      <DropdownMenuItem>
-                        <Pen />
-                        <span>Remame</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem variant="destructive" onClick={() => deleteConversation(conversation.id)}>
+                      <DropdownMenuItem className="cursor-pointer" variant="destructive" onClick={() => deleteConversation(conversation.id)}>
                         <Trash />
                         <span>Delete</span>
                       </DropdownMenuItem>

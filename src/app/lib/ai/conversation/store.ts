@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { ChatMessage } from "@/app/lib/ai/agent";
+import { TextUIPart } from "ai";
 
 type Message = ChatMessage;
 
@@ -51,6 +52,11 @@ export const useConversationStore = create<ConversationStore>()(
         set({
           conversations: conversations.map((conversation) => {
             if (conversation.id !== conversationId) return conversation;
+
+            // first message sets the title of the conversation
+            if (conversation.messages.length == 0) {
+              conversation.title = (message.parts[0] as TextUIPart).text.slice(0, 180);
+            }
 
             return {
               ...conversation,
