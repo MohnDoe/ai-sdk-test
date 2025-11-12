@@ -21,6 +21,8 @@ import { Conversation as ConversationType, useConversationStore } from "@/lib/ai
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { useEffect, useRef } from "react";
+import { Shimmer } from "../ai-elements/shimmer";
+import { Bot } from "lucide-react";
 
 export function Chat({ conversation }: { conversation: ConversationType }) {
   const { addMessageToConversation } = useConversationStore();
@@ -86,6 +88,7 @@ export function Chat({ conversation }: { conversation: ConversationType }) {
                 </div>
               ))
             )}
+            {status == "streaming" || status == 'submitted' && <Shimmer>Thinking...</Shimmer>}
           </ConversationContent>
         </Conversation>
         <div className="w-full px-4 pb-4 mt-2">
