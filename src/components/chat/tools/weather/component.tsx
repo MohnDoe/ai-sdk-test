@@ -1,8 +1,9 @@
 import { type WeatherTool } from "@/app/lib/ai/tools/weather";
 import { UIToolInvocation } from "ai";
 import { WeatherCard } from "./card";
+import { memo } from "react";
 
-export function WeatherToolComponent({ part }: { part: UIToolInvocation<WeatherTool> }) {
+export const WeatherToolComponent = memo(function WeatherToolComponent({ part }: { part: UIToolInvocation<WeatherTool> }) {
     switch (part.state) {
         case 'input-streaming':
         case 'input-available':
@@ -22,4 +23,4 @@ export function WeatherToolComponent({ part }: { part: UIToolInvocation<WeatherT
         default:
             return null;
     }
-}
+});
