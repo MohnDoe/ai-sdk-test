@@ -13,23 +13,16 @@ import {
   MessageResponse,
 } from "@/components/ai-elements/message";
 import {
-  PromptInput,
-  PromptInputBody,
-  PromptInputFooter,
-  PromptInputMessage,
-  PromptInputSubmit,
-  PromptInputTextarea,
-  PromptInputTools,
+  PromptInputMessage
 } from "@/components/ai-elements/prompt-input";
 import { ChatHeader } from "@/components/chat/header";
+import { ChatInput } from "@/components/chat/input";
+import { WeatherToolComponent } from "@/components/chat/tools/weather/component";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
-import { useState } from "react";
-import { WeatherToolComponent } from "./tools/weather";
 
 export function Chat({ conversation }: { conversation: ConversationType }) {
   const { addMessageToConversation } = useConversationStore();
-  const [input, setInput] = useState("");
 
   const { messages, sendMessage, status } = useChat<ChatMessage>({
     transport: new DefaultChatTransport({
@@ -41,13 +34,7 @@ export function Chat({ conversation }: { conversation: ConversationType }) {
     messages: conversation.messages ?? [],
   });
 
-  const handleSubmit = (message: PromptInputMessage) => {
-    const hasText = Boolean(message.text);
-
-    if (!hasText) {
-      return;
-    }
-
+  const handleSendMessage = (message: PromptInputMessage) => {
     addMessageToConversation(conversation.id, {
       id: crypto.randomUUID(),
       role: "user",
@@ -55,7 +42,6 @@ export function Chat({ conversation }: { conversation: ConversationType }) {
     });
 
     sendMessage({ text: message.text! });
-    setInput("");
   };
 
   return (
@@ -82,7 +68,6 @@ export function Chat({ conversation }: { conversation: ConversationType }) {
                       case "tool-getWeatherForCity":
                         return <WeatherToolComponent key={`${i}-${message.id}-${part.type}`} part={part} />;
                       default:
-                        console.log(part);
                         return null;
                     }
                   })}
@@ -92,18 +77,7 @@ export function Chat({ conversation }: { conversation: ConversationType }) {
           </ConversationContent>
         </Conversation>
         <div className="w-full px-4 pb-4">
-          <PromptInput onSubmit={handleSubmit}>
-            <PromptInputBody>
-              <PromptInputTextarea
-                onChange={(e) => setInput(e.target.value)}
-                value={input}
-              />
-            </PromptInputBody>
-            <PromptInputFooter>
-              <PromptInputTools />
-              <PromptInputSubmit status={status} />
-            </PromptInputFooter>
-          </PromptInput>
+          <ChatInput onSubmit={handleSendMessage} status={status} />
         </div>
       </div>
     </div>

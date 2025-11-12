@@ -6,7 +6,7 @@ if (!OWM_API_KEY) {
     throw new Error("OPENWEATHERMAP_API_KEY is not defined");
 }
 
-export async function getWeather({ city, unit }: { city: string, unit: "fahrenheit" | "celsius" }) {
+export async function getWeather({ city, unit, timezone = "auto" }: { city: string, unit: "fahrenheit" | "celsius", timezone?: string }) {
     const coords = await getCityCoords(city);
 
     if (!coords) return null;
@@ -20,7 +20,7 @@ export async function getWeather({ city, unit }: { city: string, unit: "fahrenhe
         daily: ["weather_code", "temperature_2m_max", "temperature_2m_min"],
         hourly: ["temperature_2m", "weather_code"],
         current: ["temperature_2m", "weather_code"],
-        timezone: "auto",
+        timezone,
         forecast_days: 14,
         temperature_unit: unit
     }

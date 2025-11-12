@@ -19,9 +19,10 @@ const agent = new ToolLoopAgent({
         - keep your responses limited to a sentence.
         - DO NOT output lists.
         - after every tool call, pretend you're showing the result to the user and keep your response limited to a phrase.
-        - today's date is ${new Date().toLocaleDateString()}.
+        - today's date is ${new Date()}.
         - you can only give weather info about today and the next 14 days
         - always use absolute date when using weather related tools
+        - if user asks for a particular time, be sure to include it in the date for the weather tools
         - ask follow up questions to nudge user into the optimal flow based on the tools you can use
         - don't invent features or nudge the user into information you can't get
         - ask for any details you don't know, like date or location
