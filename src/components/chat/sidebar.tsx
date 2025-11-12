@@ -28,9 +28,13 @@ export function ChatSidebar() {
   return (
     <Sidebar variant="inset" collapsible="offcanvas">
       <SidebarHeader>
-        <SidebarMenuButton onClick={handleNewConversation}>
-          <Plus /> Nouvelle conversation
-        </SidebarMenuButton>
+        <Link
+          href={`/`}
+        >
+          <SidebarMenuButton>
+            <Plus /> Nouvelle conversation
+          </SidebarMenuButton>
+        </Link>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup className="group-data-[collapsible=icon]:hidden">

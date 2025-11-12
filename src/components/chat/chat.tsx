@@ -1,7 +1,5 @@
 "use client";
 
-import { ChatMessage } from "@/lib/ai/agent"
-import { Conversation as ConversationType, useConversationStore } from "@/lib/ai/conversation/store"
 import {
   Conversation,
   ConversationContent,
@@ -18,13 +16,16 @@ import {
 import { ChatHeader } from "@/components/chat/header";
 import { ChatInput } from "@/components/chat/input";
 import { WeatherToolComponent } from "@/components/chat/tools/weather/component";
+import { ChatMessage } from "@/lib/ai/agent";
+import { Conversation as ConversationType, useConversationStore } from "@/lib/ai/conversation/store";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
+import { useEffect, useRef } from "react";
 
 export function Chat({ conversation }: { conversation: ConversationType }) {
   const { addMessageToConversation } = useConversationStore();
-
-  const { messages, sendMessage, status } = useChat<ChatMessage>({
+  const firstMessageSent = useRef(false)
+  const { messages, sendMessage, status, regenerate } = useChat<ChatMessage>({
     transport: new DefaultChatTransport({
       api: "/api/chat",
     }),
@@ -33,6 +34,17 @@ export function Chat({ conversation }: { conversation: ConversationType }) {
     },
     messages: conversation.messages ?? [],
   });
+
+  useEffect(() => {
+    if (firstMessageSent.current === false) {
+      const lastMessage = conversation.messages[conversation.messages.length - 1];
+
+      if (lastMessage.role == "user") {
+        regenerate({ messageId: lastMessage.id });
+      }
+      firstMessageSent.current = true;
+    }
+  }, [])
 
   const handleSendMessage = (message: PromptInputMessage) => {
     addMessageToConversation(conversation.id, {

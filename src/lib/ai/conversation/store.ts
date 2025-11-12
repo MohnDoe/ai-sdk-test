@@ -21,6 +21,7 @@ interface ConversationStore {
   createConversation: (title?: string) => string;
   addMessageToConversation: (conversationId: string, message: Message) => void;
   setActiveConversationId: (id: string) => void;
+  clearActiveConversationId: () => void;
   deleteConversation: (id: string) => void;
 }
 
@@ -68,6 +69,9 @@ export const useConversationStore = create<ConversationStore>()(
       },
       setActiveConversationId: (id: string) => {
         set({ activeConversationId: id });
+      },
+      clearActiveConversationId: () => {
+        set({ activeConversationId: null });
       },
       deleteConversation: (id: string) => {
         const { conversations, activeConversationId } = get();

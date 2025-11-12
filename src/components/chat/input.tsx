@@ -28,7 +28,7 @@ export function ChatInput({
     };
 
     return (
-        <PromptInput onSubmit={handleSubmit}>
+        <PromptInput onSubmit={handleSubmit} >
             <PromptInputBody>
                 <PromptInputTextarea
                     onChange={(e) => setInput(e.target.value)}
